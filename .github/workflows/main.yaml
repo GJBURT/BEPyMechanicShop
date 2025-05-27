@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8'
+          python-version: '3.12'
 
       - name: Create virtual environment
         run: |
@@ -31,11 +31,6 @@ jobs:
           source venv/bin/activate
           python -m pip install --upgrade pip
           pip install pip-tools
-      
-      - name: Compile updated requirements
-        run: |
-          source venv/bin/activate
-          pip-compile requirements.in --output-file=requirements.txt
 
       - name: Install dependencies
         run: |
@@ -47,28 +42,12 @@ jobs:
           echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
 
-      - name: Check if requirements.txt is updated
-        run: |
-          git diff --exit-code requirements.txt || echo "requirements.txt has been updated"
-
-      - name: Commit and push updated requirements.txt
-        run: |
-          git add requirements.txt
-          git diff --quiet --exit-code || git commit -m "Update requirements.txt with new versions."
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:${{ github.ref }}  # Using the token to authenticate
-
-      - name: Upload requirements.txt
-        uses: actions/upload-artifact@v4
-        with:
-          name: requirements.txt
-          path: requirements.txt
-
       - name: Print debugging information
         run: |
           echo "Python version: $(python --version)"
           echo "Working Directory: $(pwd)"
           echo "Contents of Working Directory: $(ls -l)"
-          echo "Contents of site-packages: $(ls -l venv/lib/python3.8/site-packages)"
+          echo "Contents of site-packages: $(ls -l venv/lib/python3.12/site-packages)"
 
   test:
     needs: build
@@ -87,17 +66,12 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8'
+          python-version: '3.12'
       
       - name: Create virtual environment
         run: |
           python -m venv venv
           source venv/bin/activate
-
-      - name: Download requirements.txt
-        uses: actions/download-artifact@v4
-        with:
-          name: requirements.txt
 
       - name: Install dependencies
         run: |
