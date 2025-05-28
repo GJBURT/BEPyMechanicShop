@@ -4,6 +4,10 @@ import jose
 from functools import wraps
 from flask import request, jsonify, current_app
 from app.models import Admin, Customer, Mechanic
+import os
+
+SECRET_KEY = os.environ.get('SECRET_KEY') or "super secret secrets" # Defaults to a secret key for development
+
 
 def encode_token(user_id, user_type): # uses unique pieces of information to create a token specific to the user
     payload = {
