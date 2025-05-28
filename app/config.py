@@ -2,7 +2,7 @@ from os import getenv
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-from utils.util import SECRET_KEY
+from app.utils.util import SECRET_KEY
 
 # Load environment variables from .env file
 env_path = Path(__file__).resolve().parent / '.env'
