@@ -19,7 +19,7 @@ print(f"DB_USER: {os.getenv('DB_USER')}, DB_PASSWORD: {os.getenv('DB_PASSWORD')}
 config_name = os.getenv('FLASK_ENV', 'development')
 # config_class = config_by_name.get(config_name)
 
-
+print(f'Using configuration: {config_name}')
 print(f"DB_USER: {os.getenv('DB_USER')}")
 print(f"DB_PASSWORD: {os.getenv('DB_PASSWORD')}")
 
